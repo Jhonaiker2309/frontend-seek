@@ -1,19 +1,19 @@
 import React from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { AppBar, Toolbar, Button, Box, Typography } from '@mui/material';
-import { useAuthStore } from '../store/authStore'; // Import the authentication store
+import { useAuthStore } from '../store/authStore';
 
 interface NavBarProps {
-  isAuthenticated: boolean; // Prop to determine if the user is logged in
+  isAuthenticated: boolean;
 }
 
 const NavBar: React.FC<NavBarProps> = ({ isAuthenticated }) => {
-  const logout = useAuthStore((state) => state.logout); // Access the logout function from the auth store
-  const navigate = useNavigate(); // Hook to navigate programmatically
+  const logout = useAuthStore((state) => state.logout);
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout(); // Clear user session
-    navigate('/login'); // Redirect the user to the login page after logging out
+    logout();
+    navigate('/login');
   };
 
   return (

@@ -34,13 +34,13 @@ import { TaskStatus, NewTaskData } from '../types/task';
 const getStatusBorderStyle = (status: TaskStatus) => {
   switch (status) {
     case 'to do':
-      return { borderLeft: '5px solid', borderColor: 'warning.main' }; // Orange-ish
+      return { borderLeft: '5px solid', borderColor: 'warning.main' };
     case 'in progress':
-      return { borderLeft: '5px solid', borderColor: 'info.main' }; // Blue-ish
+      return { borderLeft: '5px solid', borderColor: 'info.main' };
     case 'finished':
-      return { borderLeft: '5px solid', borderColor: 'success.main' }; // Green-ish
+      return { borderLeft: '5px solid', borderColor: 'success.main' };
     default:
-      return { borderLeft: '5px solid', borderColor: 'grey.300' }; // Default grey
+      return { borderLeft: '5px solid', borderColor: 'grey.300' };
   }
 };
 
@@ -55,7 +55,7 @@ const TaskListPage: React.FC = () => {
 
   useEffect(() => {
     fetchTasks();
-  }, [fetchTasks]);
+  }, []);
 
   const showSnackbar = (message: string) => {
     setSnackbarMessage(message);
@@ -133,17 +133,17 @@ const TaskListPage: React.FC = () => {
       {error && !loading && <Alert severity="error" sx={{ mb: 3 }}>{error}</Alert>}
 
       {!loading && !error && (
-        <Paper elevation={2} sx={{ overflow: 'hidden' }}> {/* Contain borders */}
-          <List disablePadding> {/* Remove default padding */}
+        <Paper elevation={2} sx={{ overflow: 'hidden' }}>
+          <List disablePadding>
             {tasks.map((task, index) => (
               <React.Fragment key={task.id}>
                 <ListItem
                   sx={{
-                    ...getStatusBorderStyle(task.completed), // Apply border style
-                    py: 1.5, // Add vertical padding
-                    px: 2, // Add horizontal padding
-                    bgcolor: task.completed === 'finished' ? 'grey.100' : 'background.paper', // Subtle background for finished tasks
-                    '&:hover': { // Subtle hover effect
+                    ...getStatusBorderStyle(task.completed),
+                    py: 1.5,
+                    px: 2,
+                    bgcolor: task.completed === 'finished' ? 'grey.100' : 'background.paper',
+                    '&:hover': {
                       bgcolor: task.completed === 'finished' ? 'grey.200' : 'action.hover',
                     },
                   }}
@@ -184,17 +184,16 @@ const TaskListPage: React.FC = () => {
                     secondary={task.description || 'No description'}
                     sx={{
                       textDecoration: task.completed === 'finished' ? 'line-through' : 'none',
-                      color: task.completed === 'finished' ? 'text.disabled' : 'text.primary', // Dim finished text
-                      pr: 2, // Add padding to prevent text overlap with actions
+                      color: task.completed === 'finished' ? 'text.disabled' : 'text.primary',
+                      pr: 2,
                     }}
                   />
                 </ListItem>
-                {/* Keep divider but make it conditional if you prefer */}
                 {index < tasks.length - 1 && <Divider component="li" variant="inset" />}
               </React.Fragment>
             ))}
              {tasks.length === 0 && (
-                <ListItem sx={{ py: 3, justifyContent: 'center' }}> {/* Center "No tasks" message */}
+                <ListItem sx={{ py: 3, justifyContent: 'center' }}>
                     <ListItemText primary="No tasks yet. Add one!" sx={{ textAlign: 'center' }} />
                 </ListItem>
              )}
@@ -202,11 +201,9 @@ const TaskListPage: React.FC = () => {
         </Paper>
       )}
 
-      {/* Add Task Dialog */}
       <Dialog open={openAddDialog} onClose={handleCloseAddDialog} maxWidth="sm" fullWidth>
         <DialogTitle>Add New Task</DialogTitle>
         <DialogContent>
-          {/* Display error inside dialog if it occurred during add */}
           {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
           <DialogContentText sx={{ mb: 2 }}>
             Enter the details for your new task.
@@ -243,7 +240,7 @@ const TaskListPage: React.FC = () => {
           <Button
             onClick={handleAddTask}
             disabled={!newTaskTitle.trim() || loading}
-            variant="contained" // Make add button more prominent
+            variant="contained"
           >
             {loading ? <CircularProgress size={24} color="inherit" /> : 'Add Task'}
           </Button>

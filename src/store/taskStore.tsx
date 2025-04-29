@@ -149,10 +149,8 @@ deleteTask: async (taskId) => {
   const headers = get()._getAuthHeaders();
   if (!headers) return false;
 
-  // Crear un nuevo objeto headers sin 'Content-Type'
   const deleteHeaders = { ...headers };
 
-  // Optimistic UI update
   const originalTasks = get().tasks;
   set((state) => ({
     tasks: state.tasks.filter((task) => task.id !== taskId),

@@ -36,23 +36,20 @@ const validationSchema = Yup.object({
 
 const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
-  const location = useLocation(); // Get location object
-  // Get state and actions from the Zustand store
-  const { register, loading, error: authError, isAuthenticated } = useAuthStore(); // Get isAuthenticated
-  const [apiError, setApiError] = useState<string | null>(null); // Local state for submit errors
+  const location = useLocation();
+  const { register, loading, error: authError, isAuthenticated } = useAuthStore();
+  const [apiError, setApiError] = useState<string | null>(null); 
 
   // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated) {
-      const from = location.state?.from?.pathname || '/tasks'; // Redirect to intended page or /tasks
+      const from = location.state?.from?.pathname || '/tasks';
       navigate(from, { replace: true });
     }
-    // Add dependencies: effect should re-run if any of these change
-  }, [isAuthenticated, navigate, location]);
+  }, []);
 
   const formik = useFormik({
     initialValues: {
-      // name: '', // Keep commented if name is not sent
       email: '',
       password: '',
       confirmPassword: '',
@@ -61,16 +58,11 @@ const RegisterPage: React.FC = () => {
     onSubmit: async (values) => {
       setApiError(null); // Clear previous local error
       try {
-        // Pass necessary data to the register action
-        // Include name if your backend expects it: { name: values.name, email: values.email, password: values.password }
         const success = await register({email: values.email, password: values.password});
         if (success) {
-          // Navigate to login page after successful registration
-          // Optionally show a success message before navigating
           const from = location.state?.from?.pathname || '/tasks';
           navigate(from, { replace: true }); // Navigate on success
         } else {
-          // Use error from store or set a generic one
            setApiError(authError || 'Error en el registro. El email podría estar en uso.');
         }
       } catch (err: any) {
